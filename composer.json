@@ -1,6 +1,5 @@
 {
     "name": "freeafterfull/ci-installer",
-    "description": "Codeigniter installer and cli",
     "require": {
         "codeigniter/framework": "3.1.*"
     },
