@@ -1,0 +1,19 @@
+{
+    "name": "freeafterfull/ci-installer",
+    "description": "Codeigniter installer and cli",
+    "require": {
+        "codeigniter/framework": "3.1.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "FreeAfterFull\\Src\\": "src/",
+            "FreeAfterFull\\Codeigniter\\": "application/",
+            "FreeAfterFull\\App\\": "bin/"
+        }
+    },
+    "scripts" : {
+        "post-install-cmd": [
+            "FreeAfterFull\\Src\\Installer::postInstall"
+        ]
+    }
+}
