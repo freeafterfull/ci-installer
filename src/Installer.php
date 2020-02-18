@@ -23,6 +23,7 @@ class Installer
         
         self::moveFiles($libPath.'application', 'application');
         self::moveFiles($libPath.'index.php', 'index.php');
+        self::moveFiles(__DIR__ . '/pagination.conf.php', 'application/config/pagination.php');
         self::writeMessage($event, 'nessessary files have been moved.');
 
         self::createHtaccess();
