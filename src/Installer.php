@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeAfterFull\App;
+namespace FreeAfterFull\Src;
 
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
@@ -32,12 +32,13 @@ class Installer
         self::moveFiles($libPath . '/application', 'application');
         self::moveFiles($libPath . '/index.php', 'index.php');
         self::moveFiles(__DIR__ . '/pagination.conf.php', 'application/config/pagination.php');
+        self::moveFiles('src/composer.conf.json', 'composer.json');
+
         self::writeMessage($event, 'nessessary files have been moved.');
 
         self::createHtaccess();
-        self::writeMessage($event, '.htaccess has been generated.');
 
-        self::moveFiles('src/composer.conf.json', 'composer.json');
+        self::writeMessage($event, '.htaccess has been generated.');
 
         self::composerUpdate();
         
@@ -45,7 +46,7 @@ class Installer
     }
 
     private static function composerUpdate(){
-        passthru('composer update');
+        passthru('composer.phar update');
     }
 
     private static function moveFiles($src, $dest){
