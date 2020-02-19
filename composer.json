@@ -12,7 +12,7 @@
     },
     "scripts" : {
         "post-install-cmd": [
-            "FreeAfterFull\\Src\\Installer::postInstall"
+            "FreeAfterFull\\Src\\Installer::installInstall"
         ]
     }
 }

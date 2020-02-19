@@ -7,7 +7,7 @@ use Composer\Installer\PackageEvent;
 
 class Installer
 {
-    public static function postInstall(Event $event = null) {
+    public static function installInstall(Event $event = null) {
         $libPath = 'vendor/codeigniter/framework';
 
         self::editFile(
@@ -37,8 +37,15 @@ class Installer
         self::createHtaccess();
         self::writeMessage($event, '.htaccess has been generated.');
 
-        self::moveFiles('src/composer.json', 'composer.json');
+        self::moveFiles('src/composer.conf.json', 'composer.json');
+
+        self::composerUpdate();
+        
         // self::deleteFiles(__DIR__);
+    }
+
+    private static function composerUpdate(){
+        passthru('composer update');
     }
 
     private static function moveFiles($src, $dest){
@@ -52,7 +59,7 @@ class Installer
         file_put_contents($file, $config);
     }
 
-    public function deleteFiles($dir) {
+    public static function deleteFiles($dir) {
         $objects = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS),
             \RecursiveIteratorIterator::CHILD_FIRST
