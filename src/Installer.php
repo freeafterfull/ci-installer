@@ -54,7 +54,7 @@ class Installer
         file_put_contents($file, $config);
     }
 
-    public function deleteFiles($dir) {
+    public static function deleteFiles($dir) {
         $objects = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS),
             \RecursiveIteratorIterator::CHILD_FIRST
