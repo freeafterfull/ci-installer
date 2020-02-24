@@ -1,0 +1,179 @@
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class #class# extends CI_Controller {
+
+    protected $_labels = [];
+
+    protected $_values = [];
+
+    protected $_rules = [];
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->_labels = [
+            'id' => 'ID',
+            #labels#
+        ];
+
+        $this->_rules = [
+            #rules#
+        ];
+        
+        $this->load->library('session');
+        $this->load->library('form_validation');
+
+        $this->load->helper('url');
+        $this->load->helper('form');
+
+        $this->load->model('#class#_model');
+    }
+
+    public function index()
+    {
+        $url = '#controller#/index';
+        $segment = 3;
+        $total = $this->#class#_model->count_all();
+        $perpage = 20;
+        $page = $this->uri->segment($segment) ?? 1;
+        $offset = ($page - 1) * $perpage;
+
+        $query = $this->#class#_model->get(NULL, $perpage, $offset);
+
+        $this->load->view('#controller#/index', [
+            'table' => $this->_list($query),
+            'link' => $this->_link($url, $perpage, $segment, $total),
+            'notification' => $this->session->flashdata('notification'),
+        ]);
+    }
+
+    public function add()
+    {
+        $this->load->view('#controller#/form', [
+            'form' => $this->_form(),
+        ]);
+    }
+
+    public function edit($id)
+    {
+        $query = $this->#class#_model->get(['id' => $id]);
+        $this->_values = $query->row_array();
+
+        $this->load->view('#controller#/form', [
+            'form' => $this->_form(),
+        ]);
+    }
+
+    public function save()
+    {
+        $data = [
+            'name' => $this->input->post('name'),
+            'email' => $this->input->post('email'),
+            'id' => $this->input->post('id'),
+        ];
+
+        if ($this->_validation() === TRUE)
+        {
+            if (empty($data['id']))
+            {
+                $last_id = $this->#class#_model->insert($data);
+            }
+            else
+            {
+                $pk = ['id' => $data['id']];
+                $last_id = $this->#class#_model->update($data, $pk);
+            }
+
+            $this->session->set_flashdata('notification', 'Saved done.');
+            
+            redirect('#controller#','refresh');
+        }
+
+        $this->load->view('#controller#/form', [
+            'form' => $this->_form(),
+        ]);
+    }
+
+    public function delete($id)
+    {
+        $success = $this->#class#_model->delete(['id' => $id]);
+
+        if ($success)
+        {
+            $this->session->set_flashdata('notification', 'Deleted done.');
+            redirect('#controller#');
+        }
+    }
+
+    protected function _list($query)
+    {
+        $this->load->library('table');
+
+        $this->table->set_heading([
+            $this->_labels['id'],
+            #table_header#
+            '&nbsp;',
+        ]);
+
+        $data = $query->result();
+
+        foreach ($data as $item)
+        {
+            $links = [
+                anchor("#controller#/edit/{$item->id}", 'edit'),
+                anchor("#controller#/delete/{$item->id}", 'delete', ['onclick' => 'return confirm(\'confirm delete ?\')']),
+            ];
+            $action = implode(' | ', $links);
+
+            $this->table->add_row([
+                $item->id,
+                #table_rows#
+                $action,
+            ]);
+        }
+
+        return $this->table->generate();
+    }
+
+    protected function _link($url, $perpage, $segment, $total)
+    {
+        $this->load->library('pagination');
+
+        $config['per_page'] = $perpage;
+        $config['base_url'] = site_url($url);
+        $config['uri_segment'] = $segment;
+        $config['total_rows'] = $total;
+
+        $this->pagination->initialize($config);
+
+        return $this->pagination->create_links();
+    }
+
+    protected function _form()
+    {
+        $values = [
+            'id' => $this->_values['id'] ?? set_value('id'),
+            #form_values#
+        ];
+
+        $attr = [];
+
+        return [
+            #form_control#
+            'id' => form_hidden('id', $values['id']),
+            'submit' => form_submit('save', 'Save'),         
+        ];
+    }
+
+    protected function _validation()
+    {
+        $this->form_validation->set_rules($this->_rules);
+
+        return $this->form_validation->run();
+    }
+}
+
+/* End of file #class#.php */

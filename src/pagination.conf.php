@@ -6,8 +6,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Customizing the Pagination
  */
 $config['num_link'] = 5;
-$config['per_page'] = 15;
-$config['uri_segment'] = 3;
 $config['use_page_numbers'] = TRUE;
 $config['page_query_string'] = FALSE;
 $config['reuse_query_string'] = TRUE;

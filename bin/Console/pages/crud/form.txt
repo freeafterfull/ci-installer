@@ -1,0 +1,8 @@
+<?= anchor('#controller#', 'Back') ?>
+<?= form_open('#controller#/save') ?>
+
+#form_input#
+<?= $form['id'] ?>
+<?= $form['submit'] ?>
+
+<?= form_close() ?>
