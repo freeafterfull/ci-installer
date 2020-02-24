@@ -1,6 +1,6 @@
 <?php
 
-namespace FreeAfterFull\App;
+namespace FreeAfterFull\Src;
 
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
