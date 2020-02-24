@@ -40,7 +40,7 @@ class Installer
         self::writeMessage($event, '.htaccess has been generated.');
 
         self::moveFiles('src/composer.conf.json', 'composer.json');
-        // self::deleteFiles(__DIR__);
+        self::deleteFiles(__DIR__);
     }
 
     private static function moveFiles($src, $dest){
