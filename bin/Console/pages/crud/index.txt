@@ -1,7 +1,0 @@
-<?= $notification ?>
-
-<?= anchor('#controller#/add', 'Add') ?>
-
-<?= $table ?>
-
-<?= $link ?>
