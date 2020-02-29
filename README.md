@@ -1,6 +1,6 @@
 # Codeigniter Installer
 
-Codeigniter framework installer with composer.
+Codeigniter framework installer via composer.
 
 ## Usage
 
